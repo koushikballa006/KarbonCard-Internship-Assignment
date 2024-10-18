@@ -124,6 +124,18 @@ def iscr(data: dict, financial_index):
     Returns:
     - float: The ISCR value.
     """
+    try:
+        pnl = data["financials"][financial_index]["pnl"]["lineItems"]
+        profit_before_interest_and_tax = pnl.get("profit_before_interest_and_tax", 0)
+        depreciation = pnl.get("depreciation", 0)
+        interest = pnl.get("interest", 0)
+        
+        numerator = profit_before_interest_and_tax + depreciation + 1
+        denominator = interest + 1
+        
+        return numerator / denominator
+    except (KeyError, IndexError):
+        return 0.0
 
 
 def borrowing_to_revenue_flag(data: dict, financial_index):
