@@ -105,6 +105,8 @@ def total_revenue_5cr_flag(data: dict, financial_index):
     Returns:
     - FLAGS.GREEN or FLAGS.RED: The flag color based on the total revenue.
     """
+    revenue = total_revenue(data, financial_index)
+    return FLAGS.GREEN if revenue >= 50000000 else FLAGS.RED
 
 
 def iscr(data: dict, financial_index):
