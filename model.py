@@ -53,4 +53,10 @@ def analyze_data():
         return jsonify({"error": "Invalid file type. Please upload a JSON file."}), 400        
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # data = json.loads("t.json")
+    # print(data)
+    with open("data.json", "r") as file:
+        content = file.read()
+        # convert to json
+        data = json.loads(content)
+        print(probe_model_5l_profit(data["data"]))
