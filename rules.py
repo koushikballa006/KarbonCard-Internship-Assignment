@@ -45,6 +45,10 @@ def total_revenue(data: dict, financial_index):
     Returns:
     - float: The net revenue value from the financial data.
     """
+    try:
+        return data["financials"][financial_index]["pnl"]["lineItems"]["net_revenue"]
+    except (KeyError, IndexError):
+        return 0.0
 
 
 def total_borrowing(data: dict, financial_index):
