@@ -3,7 +3,7 @@ from flask_cors import CORS
 from model import analyze_json_data
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": "https://karboncard-frontend-flame.vercel.app"}})
 
 @app.route('/api/analyze', methods=['POST'])
 def analyze_data():
