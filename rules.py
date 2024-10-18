@@ -66,6 +66,11 @@ def total_borrowing(data: dict, financial_index):
     Returns:
     - float: The ratio of total borrowings to total revenue.
     """
+    try:
+        bs = data["financials"][financial_index]["bs"]["liabilities"]
+        return bs.get("long_term_borrowings", 0) + bs.get("short_term_borrowings", 0)
+    except (KeyError, IndexError):
+        return 0.0
 
 
 def iscr_flag(data: dict, financial_index):
