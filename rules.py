@@ -125,8 +125,10 @@ def borrowing_to_revenue_flag(data: dict, financial_index: int) -> int:
     revenue = total_revenue(data, financial_index)
     borrowing = total_borrowing(data, financial_index)
     
-    if revenue == 0:
-        return FLAGS.AMBER
+    if revenue == 0 and borrowing == 0:
+        return FLAGS.GREEN
+    elif revenue == 0:
+        return FLAGS.AMBER        
     
     ratio = borrowing / revenue
     return FLAGS.GREEN if ratio <= 0.25 else FLAGS.AMBER
