@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, iscr, borrowing_to_revenue_flag
 import json
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 def probe_model_5l_profit(data: dict):
     """
@@ -31,7 +33,7 @@ def probe_model_5l_profit(data: dict):
         }
     }
 
-@app.route('/api/analyze', method=['POST'])
+@app.route('/api/analyze', methods=['POST'])
 def analyze_data():
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
