@@ -1,4 +1,3 @@
-# model.py
 from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, borrowing_to_revenue_flag
 import json
 
