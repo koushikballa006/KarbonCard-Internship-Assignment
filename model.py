@@ -31,7 +31,24 @@ def probe_model_5l_profit(data: dict):
         }
     }
 
+@app.route('/api/analyze', method=['POST'])
+def analyze_data():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
 
+        file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "No selected file"}), 400
+    
+    if file and file.filename.endswith('.json'):
+        try:
+            data = json.load(file)
+            result = probe_model_5l_profit(data["data"])
+            return jsonify(result)
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid JSON file"}), 400
+        except KeyError:
+            return jsonify({"error": "Invalid data structure in JSON file"}), 400
 
 if __name__ == "__main__":
     # data = json.loads("t.json")
