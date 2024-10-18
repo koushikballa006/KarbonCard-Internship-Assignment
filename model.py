@@ -1,6 +1,8 @@
+from flask import Flask, request, jsonify
 from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, iscr, borrowing_to_revenue_flag
 import json
 
+app = Flask(__name__)
 
 def probe_model_5l_profit(data: dict):
     """
@@ -28,6 +30,7 @@ def probe_model_5l_profit(data: dict):
             "ISCR_FLAG": iscr_flag_value,
         }
     }
+
 
 
 if __name__ == "__main__":
