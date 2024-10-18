@@ -1,10 +1,6 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, iscr, borrowing_to_revenue_flag
+# model.py
+from rules import latest_financial_index, iscr_flag, total_revenue_5cr_flag, borrowing_to_revenue_flag
 import json
-
-app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
 
 def probe_model_5l_profit(data: dict):
     """
@@ -28,35 +24,23 @@ def probe_model_5l_profit(data: dict):
         }
     }
 
-@app.route('/api/analyze', methods=['POST'])
-def analyze_data():
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
-    
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({"error": "No selected file"}), 400
-    
-    if file and file.filename.endswith('.json'):
-        try:
-            content = file.read()
-            data = json.loads(content)
-            result = probe_model_5l_profit(data["data"])
-            return jsonify(result)
-        except json.JSONDecodeError:
-            return jsonify({"error": "Invalid JSON file"}), 400
-        except KeyError:
-            return jsonify({"error": "Invalid data structure in JSON file"}), 400
-    else:
-        return jsonify({"error": "Invalid file type. Please upload a JSON file."}), 400
+def analyze_json_data(json_data: str):
+    """
+    Analyze JSON data containing financial information.
+    :param json_data: JSON string containing financial data.
+    :return: Analysis result.
+    """
+    try:
+        data = json.loads(json_data)
+        return probe_model_5l_profit(data["data"])
+    except json.JSONDecodeError:
+        raise ValueError("Invalid JSON data")
+    except KeyError:
+        raise ValueError("Invalid data structure in JSON")
 
 if __name__ == "__main__":
     # This code runs when you execute the script directly
     with open("data.json", "r") as file:
         content = file.read()
-    data = json.loads(content)
-    print(probe_model_5l_profit(data["data"]))
-    
-    # Start the Flask server
-    print("Starting Flask server...")
-    app.run(debug=True, port=5000)
+    result = analyze_json_data(content)
+    print(result)
