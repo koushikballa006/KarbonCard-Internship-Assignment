@@ -49,6 +49,8 @@ def analyze_data():
             return jsonify({"error": "Invalid JSON file"}), 400
         except KeyError:
             return jsonify({"error": "Invalid data structure in JSON file"}), 400
+    else:
+        return jsonify({"error": "Invalid file type. Please upload a JSON file."}), 400        
 
 if __name__ == "__main__":
     # data = json.loads("t.json")
